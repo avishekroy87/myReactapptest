@@ -87,6 +87,9 @@
 
 import { useReducer } from "react";
 import  reducer from './Reducer'
+import Person1 from "./components/Person1";
+import Person2 from "./components/person2";
+
 const initState = {count:0};
 
 // const reducer = (state, action) => {
@@ -109,6 +112,9 @@ const App = () => {
 
     <button onClick={() => dispatchEvent({type: 'increment'})}>Increment</button>
     <button onClick={() => dispatchEvent({type: 'decrement'}) }>Decrement</button>
+
+    <Person1 />
+    <Person2 /> 
    </div>
   )
 }
