@@ -85,10 +85,12 @@
 
 // export default App
 
-import { useReducer } from "react";
+import { useReducer, useRef, useState } from "react";
 import  reducer from './Reducer'
 import Person1 from "./components/Person1";
 import Person2 from "./components/person2";
+
+import './App.css';
 
 const initState = {count:0};
 
@@ -106,15 +108,44 @@ const initState = {count:0};
 const App = () => {
 
   const [state, dispatchEvent] = useReducer(reducer, initState);
+  const [formValues, setFormValues] = useState([]);
+  const fullnameRef = useRef('');
+  const emailRef = useRef('');
+  const ageRef = useRef('');
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    var fullnameVal = fullnameRef.current.value;
+    var emailVal = emailRef.current.value;
+    var ageVal = ageRef.current.value;
+    
+    setFormValues(...formValues, {fullname: fullnameVal, email: emailVal, age: ageVal});
+  }
   return(
-   <div>
-    Counter{state.count}
-
+   <div className="App">
+    Counter &nbsp; {state.count}
+    <br/>
     <button onClick={() => dispatchEvent({type: 'increment'})}>Increment</button>
     <button onClick={() => dispatchEvent({type: 'decrement'}) }>Decrement</button>
-
+    <p>&nbsp;</p>
     <Person1 />
     <Person2 /> 
+  
+    <h3>Form part</h3>
+    <p>The values are submitted are: {formValues.fullname}{formValues.email}{formValues.age}</p>
+    <form onSubmit={handleSubmit}>
+    <label>Enter your Full name</label>
+    <input type="text" ref={fullnameRef} />
+    <br/>
+    <label>Enter your email</label>
+    <input type="email" ref={emailRef} />
+    <br/>
+    <label>Enter your age</label>
+    <input type="number" ref={ageRef} />
+    <br/>
+    <button type="submit">Submit</button>
+    </form>
+    
    </div>
   )
 }
